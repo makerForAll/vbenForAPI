@@ -1,6 +1,6 @@
 import type { RouteRecordRaw } from 'vue-router';
 
-import { $t } from '#/locales';
+// import { $t } from '#/locales';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -13,23 +13,23 @@ const routes: RouteRecordRaw[] = [
     path: '/intermediary',
     children: [
       {
-        name: 'Analytics',
+        name: 'intermediary-dashboard',
         path: '/intermediary-dashboard',
-        component: () => import('#/views/dashboard/analytics/index.vue'),
+        component: () => import('#/views/intermediary/intermediary-dashboard/index.vue'),
         meta: {
-          affixTab: true,
-          icon: 'lucide:area-chart',
+          // affixTab: true,
+          icon: 'streamline-ultimate-color:car-dashboard-speed',
           // title: $t('page.dashboard.analytics'),
-          title: "分析页",
+          title: "中介仪表盘",
         },
       },
       {
-        name: 'Workspace',
-        path: '/workspace',
-        component: () => import('#/views/dashboard/workspace/index.vue'),
+        name: 'intermediary-management',
+        path: '/intermediary-management',
+        component: () => import('#/views/intermediary/intermediary-management/index.vue'),
         meta: {
-          icon: 'carbon:workspace',
-          title: $t('page.dashboard.workspace'),
+          icon: 'icon-park:view-grid-detail',
+          title: "中介管理",
         },
       },
     ],
