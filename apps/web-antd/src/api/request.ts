@@ -106,8 +106,10 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
   return client;
 }
 
+// 有拦截器的请求客户端
 export const requestClient = createRequestClient(apiURL, {
   responseReturn: 'data',
 });
 
+// 没有拦截器的请求客户端
 export const baseRequestClient = new RequestClient({ baseURL: apiURL });

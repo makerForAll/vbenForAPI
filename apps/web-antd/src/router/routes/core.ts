@@ -57,6 +57,15 @@ const coreRoutes: RouteRecordRaw[] = [
         },
       },
       {
+        name: 'FeishuCallback',
+        path: 'feishu-callback',
+        component: () => import('#/views/_core/authentication/feishu-callback.vue'),
+        meta: {
+          title: '飞书登录',
+          ignoreAccess: true,
+        },
+      },
+      {
         name: 'CodeLogin',
         path: 'code-login',
         component: () => import('#/views/_core/authentication/code-login.vue'),

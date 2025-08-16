@@ -87,6 +87,20 @@ const formSchema = computed((): VbenFormSchema[] => {
     },
   ];
 });
+
+// 模拟飞书登录，切换页面到 feishu-callback.vue
+// 在 feishu-callback.vue 中，通过 /api/auth/feishu/callback 接口获取 accessToken
+function handleFeishuLogin() {
+  // 1) 生成“前端回调页”的绝对地址（后端授权完成后会 302 回跳到这里）
+  const redirect = `${location.origin}/auth/feishu-callback`;
+  // 2) 自定义状态位，用于回传校验（可区分来源/防重放等）
+  const state = 'login';
+  // 3) 将 redirect/state 序列化为查询串，作为参数传给后端授权入口
+  const search = new URLSearchParams({ redirect, state }).toString();
+ // 4) 整页跳转到后端“飞书授权入口”
+  //    后端读取 redirect/state 后，会 302 跳转到 `${redirect}?code=...&state=...`
+  window.location.href = `/api/auth/feishu/login?${search}`;
+}
 </script>
 
 <template>
@@ -95,4 +109,7 @@ const formSchema = computed((): VbenFormSchema[] => {
     :loading="authStore.loginLoading"
     @submit="authStore.authLogin"
   />
+  <div class="mt-3 flex justify-center">
+    <a @click="handleFeishuLogin">使用飞书账号登录</a>
+  </div>
 </template>

@@ -49,3 +49,14 @@ export async function logoutApi() {
 export async function getAccessCodesApi() {
   return requestClient.get<string[]>('/auth/codes');
 }
+
+/**
+ * 飞书 OAuth 回调（使用 code 换 JWT，后端会设置 refreshToken 到 Cookie 并返回 accessToken）
+ */
+export async function feishuOAuthCallback(params: { code: string; state?: string }) {
+  const search = new URLSearchParams(params as any).toString();
+  return baseRequestClient.get<{ accessToken: string }>(
+    `/auth/feishu/callback?${search}`,
+    { withCredentials: true },
+  );
+}
