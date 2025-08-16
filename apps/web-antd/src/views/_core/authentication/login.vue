@@ -104,6 +104,7 @@ function handleFeishuLogin() {
 </script>
 
 <template>
+  <div>
   <AuthenticationLogin
     :form-schema="formSchema"
     :loading="authStore.loginLoading"
@@ -112,4 +113,5 @@ function handleFeishuLogin() {
   <div class="mt-3 flex justify-center">
     <a @click="handleFeishuLogin">使用飞书账号登录</a>
   </div>
+</div>
 </template>
