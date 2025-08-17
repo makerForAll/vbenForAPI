@@ -2,7 +2,7 @@ import type { EventHandlerRequest, H3Event } from 'h3';
 
 import jwt from 'jsonwebtoken';
 
-import { UserInfo } from './mock-data';
+import { MOCK_USERS, UserInfo } from './mock-data';
 
 // TODO: Replace with your own secret key
 const ACCESS_TOKEN_SECRET = 'access_token_secret';
@@ -33,10 +33,18 @@ export function verifyAccessToken(
 
   const token = authHeader.split(' ')[1];
   try {
-    const decoded = jwt.verify(token, ACCESS_TOKEN_SECRET) as UserPayload;
+    const decoded = jwt.verify(token, ACCESS_TOKEN_SECRET) as any;
 
-    const username = decoded.username;
+    // 优先直接使用 token 内的用户信息（真实飞书用户签发的JWT）
+    if (decoded && decoded.username && Array.isArray(decoded.roles)) {
+      const { password: _p, ...rest } = decoded;
+      return rest as Omit<UserInfo, 'password'>;
+    }
+
+    // 兼容 mock 用户：根据 username 回表
+    const username = (decoded as UserPayload).username;
     const user = MOCK_USERS.find((item) => item.username === username);
+    if (!user) return null;
     const { password: _pwd, ...userinfo } = user;
     return userinfo;
   } catch {
